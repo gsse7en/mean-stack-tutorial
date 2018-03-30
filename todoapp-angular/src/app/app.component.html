@@ -1,3 +1,32 @@
+<table>
+  <tr>
+    <td></td>
+    <th *ngFor="let row of productNames">
+      {{row}}
+    </th>
+  </tr>
+  <tr *ngFor="let row of productNames; let i = index">
+    <th>{{ row}}</th>
+    <td *ngFor="let cell of productNames; let j = index">{{cell}}
+      <div *ngIf="getCell(i+'-'+j).isEditing">
+        <button class="btn green" (click)="goodMix(i+'-'+j)">
+          <i  class="fa fa-check"></i>
+        </button>
+        <button class="btn gray" (click)="normMix(i+'-'+j)">
+          <i  class="fa fa-pencil"></i>
+        </button>
+        <button class="btn red" (click)="badMix(i+'-'+j)">
+          <i  class="fa fa-trash"></i>
+        </button>
+      </div>
+      <div *ngIf="!getCell(i+'-'+j).isEditing">
+        <button class="btn" [style.background-color]="getCell(i+'-'+j).color" (click)="editCell(i+'-'+j)">
+          <i  class="fa fa-pencil"></i>
+        </button>
+      </div>
+    </td>
+  </tr>
+</table>
 <div class="row">
   <div class="col-md-2"></div>
   <div class="col-md-8">
@@ -24,8 +53,8 @@
           </ng-container>
 
           <ng-template #editTD>
-            <td><input type="text" name="title" id="title" (keypress)="submitTodo($event, todo)" [(ngModel)]="todo.title" placeholder="Title" class="form-control"></td>
-            <td><input type="text" name="description" id="description" (keypress)="submitTodo($event, todo)" [(ngModel)]="todo.description" placeholder="Description"
+            <td><input type="text" name="title" (keypress)="submitTodo($event, todo)" [(ngModel)]="todo.title" placeholder="Title" class="form-control"></td>
+            <td><input type="text" name="description" (keypress)="submitTodo($event, todo)" [(ngModel)]="todo.description" placeholder="Description"
                        class="form-control"></td>
             <td>{{todo.date | date}}</td>
             <td>
@@ -55,11 +84,10 @@
       <div class="form-row">
 
         <div class="col-md-5">
-          <input type="text" name="title" id="title" [(ngModel)]="newTodo.title" placeholder="Title" class="form-control">
+          <input type="text" name="title" [(ngModel)]="newTodo.title" placeholder="Title" class="form-control">
         </div>
         <div class="col-md-5">
-          <input name="description" id="description" [(ngModel)]="newTodo.description" placeholder="Description" class="form-control"
-                 id="description">
+          <input name="description" [(ngModel)]="newTodo.description" placeholder="Description" class="form-control">
         </div>
         <div class="col-md-2">
           <button type="submit" class="btn btn-primary" (click)="create()">Add</button>
@@ -71,3 +99,4 @@
 
   </div>
 </div>
+
